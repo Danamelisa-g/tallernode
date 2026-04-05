@@ -1,4 +1,3 @@
-
 const productos = [
   {
     id: 1,
@@ -190,76 +189,63 @@ const productos = [
   }
 ];
 
-// ── 2. Agarrar el contenedor principal del HTML ───────────────────
+// agarro el div del html donde van las tarjetas
 const catalogo = document.getElementById('catalogo');
 
-// ── 3. Función que crea la tarjeta de UN producto ─────────────────
+// esta funcion crea la tarjeta de cada producto
 function crearTarjeta(producto) {
 
-    // Caja principal de la tarjeta
+    // creo la caja de la tarjeta
     const tarjeta = document.createElement('div');
     tarjeta.className = 'tarjeta';
 
-    // Imagen del producto
+    // imagen
     const imagen = document.createElement('img');
     imagen.src = producto.imagen;
     imagen.alt = producto.nombre;
 
-    // Nombre del producto
+    // nombre
     const nombre = document.createElement('h2');
     nombre.textContent = producto.nombre;
 
-    // Descripción del producto
+    // descripcion
     const descripcion = document.createElement('p');
     descripcion.textContent = producto.descripcion;
 
-    // Precio del producto
+    // precio
     const precio = document.createElement('p');
     precio.textContent = '$' + producto.precio.toFixed(2);
     precio.className = 'precio';
 
-    // Botón "Agregar al Carrito"
+    // boton de agregar al carrito
     const btnCarrito = document.createElement('button');
     btnCarrito.textContent = 'Agregar al Carrito';
     btnCarrito.className = 'btn-carrito';
 
-    // Al hacer clic: cambia texto y se deshabilita
+    // cuando hacen click cambia el texto y se bloquea
     btnCarrito.addEventListener('click', () => {
         btnCarrito.textContent = 'Agregado ✅';
         btnCarrito.disabled = true;
     });
 
-    // Botón "Ver reseñas"
+    // boton para ver las reseñas
     const btnResenas = document.createElement('button');
     btnResenas.textContent = 'Ver reseñas (' + producto.reseñas.length + ')';
     btnResenas.className = 'btn-resenas';
 
-    // Lista de reseñas (empieza oculta)
+    // lista de reseñas, empieza oculta
     const listaResenas = document.createElement('ul');
     listaResenas.className = 'lista-resenas';
     listaResenas.style.display = 'none';
 
-    // Crear un <li> por cada reseña
+    // recorro las reseñas y creo un li por cada una
     producto.reseñas.forEach(r => {
         const item = document.createElement('li');
-
-        const usuario = document.createElement('strong');
-        usuario.textContent = r.usuario;
-
-        const texto = document.createElement('p');
-        texto.textContent = '"' + r.texto + '"';
-
-        const fecha = document.createElement('span');
-        fecha.textContent = r.fecha;
-        fecha.className = 'fecha-resena';
-
-        item.appendChild(usuario);
-        item.appendChild(texto);
-        item.appendChild(fecha);
+        item.textContent = r.usuario + ': "' + r.texto + '" — ' + r.fecha;
         listaResenas.appendChild(item);
     });
 
-    // Al hacer clic en el botón: mostrar u ocultar las reseñas
+    // cuando hacen click muestro u oculto las reseñas
     btnResenas.addEventListener('click', () => {
         if (listaResenas.style.display === 'none') {
             listaResenas.style.display = 'block';
@@ -270,7 +256,7 @@ function crearTarjeta(producto) {
         }
     });
 
-    // Ensamblar todos los elementos dentro de la tarjeta
+    // meto todo dentro de la tarjeta
     tarjeta.appendChild(imagen);
     tarjeta.appendChild(nombre);
     tarjeta.appendChild(descripcion);
@@ -279,9 +265,9 @@ function crearTarjeta(producto) {
     tarjeta.appendChild(btnResenas);
     tarjeta.appendChild(listaResenas);
 
-    // Agregar la tarjeta terminada al catálogo
+    // meto la tarjeta en el catalogo
     catalogo.appendChild(tarjeta);
 }
 
-// ── 4. Recorrer los 20 productos y crear una tarjeta por cada uno ─
+// recorro todos los productos y creo una tarjeta por cada uno
 productos.forEach(p => crearTarjeta(p));
